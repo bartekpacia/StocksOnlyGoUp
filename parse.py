@@ -1,4 +1,3 @@
-import json
 import os
 import requests
 
@@ -7,19 +6,18 @@ import dotenv
 
 dotenv.load_dotenv(verbose=True)
 
-API_KEY = None
 MAIN_URL = "https://www.alphavantage.co"
 QUERY_URL = MAIN_URL + "/query"
+API_KEY = os.getenv("AV_API_KEY")
+
+if not API_KEY:
+    print("error: API_KEY is null")
+    exit(1)
 
 
 @click.command()
 @click.option("--company", type=str, help="company to scrape data")
 def main(company: str):
-    API_KEY = os.getenv("AV_API_KEY")
-
-    if not API_KEY:
-        print("error: API_KEY is null")
-        exit(1)
 
     if not company:
         print("error: company is null")

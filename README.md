@@ -1,9 +1,10 @@
-# Not v2 really
+# StocksOnlyGoUp
 
 
 ### Dependencies:
 - [click v7.0](https://click.palletsprojects.com/en/7.x/)
 - [requests](https://requests.readthedocs.io/en/master/)
+- [dotenv](https://pypi.org/project/python-dotenv/)
 
 ### Usage
 1. Install dependencies

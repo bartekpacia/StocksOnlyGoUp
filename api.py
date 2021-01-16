@@ -15,7 +15,7 @@ class Stock:
         self.volume = volume
 
     def __str__(self):
-        return f"Stock({self.date}, {self.open}, {self.high}, {self.low}, {self.close}, {self.volume}"
+        return f"Stock(date: {self.date}, open: {self.open}, high: {self.high}, low: {self.low}, close: {self.close}, volume: {self.volume})"
 
 
 def get_stocks(company: str) -> List[Stock]:
@@ -26,12 +26,20 @@ def get_stocks(company: str) -> List[Stock]:
     }
 
     response = requests.get(main.QUERY_URL, params=query_params)
-
+    
     print(f"status: {response.status_code}, url: {response.url}")
     response_data = response.json()
-    stocks_by_date = response_data["Time Series (Daily)"]
-
     stocks: List[Stock] = []
+    print("beg")
+    print(response_data)
+    print("end")
+    if response_data["Error Message"]:
+        print("Wrong stock code")
+        return stocks
+
+    stocks_by_date = response_data["Time Series (Daily)"]
+    
+
     for date, stock_value in stocks_by_date.items():
         key_open = "1. open"
         value_open = stock_value[key_open]

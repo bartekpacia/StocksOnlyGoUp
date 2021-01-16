@@ -1,3 +1,4 @@
+import json
 from typing import List
 import requests
 
@@ -15,15 +16,6 @@ class Stock:
 
     def __str__(self):
         return f"Stock({self.date=}, {self.open=}, {self.high=}, {self.low=}, {self.close=}, {self.volume}"
-
-    def __repr__(self):
-        return {
-            "date": self.date,
-            "high": self.high,
-            "low": self.low,
-            "close": self.close,
-            "volume": self.volume,
-        }
 
 
 def get_stocks(company: str) -> List[Stock]:

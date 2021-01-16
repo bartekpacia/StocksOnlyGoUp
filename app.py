@@ -1,6 +1,6 @@
 import json
 
-from flask import Flask, request
+from flask import Flask, request, Response
 import api
 
 app = Flask(__name__)
@@ -14,9 +14,8 @@ def hello():
 @app.route('/data', methods=["GET"])
 def get_data():
     company = request.args.get("company")
-    print(f"{company=}")
     stocks = api.get_stocks(company)
 
-    json_string = json.dumps([repr(obj) for obj in stocks])
+    stocks_str = json.dumps(stocks, default=lambda x: x.__dict__, indent=4)
 
-    return json.dumps(json_string)
+    return Response(stocks_str, mimetype='application/json')

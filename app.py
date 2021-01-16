@@ -1,3 +1,5 @@
+import json
+
 from flask import Flask, request
 import api
 
@@ -15,9 +17,6 @@ def get_data():
     print(f"{company=}")
     stocks = api.get_stocks(company)
 
-    ret = ""
-    for c in stocks:
-        ret += str(c)
+    json_string = json.dumps([ob.__dict__ for ob in stocks])
 
-    print(f"{ret=}")
-    return ret
+    return json.dumps(json_string)

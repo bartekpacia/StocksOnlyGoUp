@@ -14,8 +14,10 @@ def hello():
 @app.route('/data', methods=["GET"])
 def get_data():
     company = request.args.get("company")
+    print(company + "")
+    if not company:
+        return "Missing company name"
     stocks = api.get_stocks(company)
-
     stocks_str = json.dumps(stocks, default=lambda x: x.__dict__, indent=4)
 
     return Response(stocks_str, mimetype='application/json')

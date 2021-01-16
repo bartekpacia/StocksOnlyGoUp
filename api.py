@@ -15,7 +15,7 @@ class Stock:
         self.volume = volume
 
     def __str__(self):
-        return f"Stock({self.date=}, {self.open=}, {self.high=}, {self.low=}, {self.close=}, {self.volume}"
+        return f"Stock({self.date}, {self.open}, {self.high}, {self.low}, {self.close}, {self.volume}"
 
 
 def get_stocks(company: str) -> List[Stock]:

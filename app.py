@@ -17,6 +17,6 @@ def get_data():
     print(f"{company=}")
     stocks = api.get_stocks(company)
 
-    json_string = json.dumps([ob.__dict__ for ob in stocks])
+    json_string = json.dumps([repr(obj) for obj in stocks])
 
     return json.dumps(json_string)

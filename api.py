@@ -37,7 +37,9 @@ def get_stocks(company: str) -> List[Stock]:
         print("Wrong stock code")
         return stocks
 
-    stocks_by_date = response_data["Time Series (Daily)"]
+    stocks_by_date = response_data.get("Time Series (Daily)")
+    if not stocks_by_date:
+        return []
     
 
     for date, stock_value in stocks_by_date.items():

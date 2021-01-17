@@ -7,6 +7,9 @@ import api
 app = Flask(__name__)
 
 TOKEN = "6GLcBmAQJkTAo4u6H3cYbg"
+API_KEY = "J6EC4O31EWEHUZ2W"
+MAIN_URL = "https://www.alphavantage.co"
+QUERY_URL = MAIN_URL + "/query"
 
 
 @app.route("/")

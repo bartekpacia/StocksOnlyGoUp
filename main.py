@@ -1,32 +1,50 @@
-import os
-import click
-import dotenv
+import json
 
+import requests
+from flask import Flask, request, Response
 import api
 
-dotenv.load_dotenv(verbose=True)
+app = Flask(__name__)
 
-API_KEY = os.getenv("AV_API_KEY")
-if not API_KEY:
-    print("error: API_KEY is null")
-    exit(1)
-
-MAIN_URL = "https://www.alphavantage.co"
-QUERY_URL = MAIN_URL + "/query"
+TOKEN = "6GLcBmAQJkTAo4u6H3cYbg"
 
 
-@click.command()
-@click.option("--company", type=str, help="company to scrape data")
-def main(company: str):
+@app.route("/")
+def hello():
+    return "Hello, World!"
+
+@app.route("/upload_via_presigned_url")
+def upload_file_via_presigned_url():
+    # First, we need to get pre-signed url
+    r = requests.post("https://api2.dropbase.io/v1/pipeline/generate_presigned_url", data={"token": TOKEN})
+    if r.status_code != 200:  # Something failed
+        return f"error, status: {r.status_code}, msg: {r.json}"
+
+    presigned_url = r.json()["upload_url"]  # Link to upload a file
+    job_id = r.json()["job_id"]  # Job_id to see the status of the pipeline once the file is uploaded
+
+    # Now we upload the file
+    r = requests.put(presigned_url,
+                     data=open("data.json", "rb"))  # replace NHkJR6qjRu8kkRSk8zHiGt.csv with your file
+
+    if r.status_code != 200:  # Failed to upload and run pipeline
+        return f"error, status: {r.status_code}, msg: {r.json}"
+
+    # The pipeline will now run
+    return f"pipeline is running, id: {job_id}"
+
+
+@app.route("/data", methods=["GET"])
+def get_data():
+    company = request.args.get("company")
+    
     if not company:
-        print("error: company is null")
-        exit(1)
-
+        return "Missing company name"
+    
     stocks = api.get_stocks(company)
+    if len(stocks) == 0:
+        return 'Returned 0 elements, are you sure you are using correct stock code?'
+    #Golden line
+    stocks_str = json.dumps(stocks, default=lambda x: x.__dict__, indent=4)
 
-    for stock in stocks:
-        print(f"{stock.date}: open: {stock.open}")
-
-
-if __name__ == "__main__":
-    main()
+    return Response(stocks_str, mimetype="application/json")

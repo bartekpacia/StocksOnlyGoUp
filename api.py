@@ -2,7 +2,7 @@ import json
 from typing import List
 import requests
 
-import main
+import dupa
 
 
 class Stock:
@@ -22,10 +22,10 @@ def get_stocks(company: str) -> List[Stock]:
     query_params = {
         "function": "TIME_SERIES_DAILY",
         "symbol": company,
-        "apikey": main.API_KEY,
+        "apikey": dupa.API_KEY,
     }
 
-    response = requests.get(main.QUERY_URL, params=query_params)
+    response = requests.get(dupa.QUERY_URL, params=query_params)
     
     print(f"status: {response.status_code}, url: {response.url}")
     response_data = response.json()

@@ -30,10 +30,10 @@ def get_stocks(company: str) -> List[Stock]:
     print(f"status: {response.status_code}, url: {response.url}")
     response_data = response.json()
     stocks: List[Stock] = []
-    print("beg")
+    print("begin")
     print(response_data)
     print("end")
-    if response_data["Error Message"]:
+    if response_data.get("Error Message"):
         print("Wrong stock code")
         return stocks
 

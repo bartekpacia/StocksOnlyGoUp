@@ -1,0 +1,4 @@
+requests~=2.25.1
+click~=7.1.2
+python-dotenv~=0.15.0
+Flask~=1.1.2

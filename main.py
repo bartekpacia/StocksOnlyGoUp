@@ -48,7 +48,7 @@ def update():
     job_id = r.json()["job_id"]  # Job_id to see the status of the pipeline once the file is uploaded
 
     # Now we upload the file
-    r = requests.put(presigned_url,data=open(file, "rb"))
+    r = requests.put(presigned_url,data=open(file_name, "rb"))
 
     if r.status_code != 200:  # Failed to upload and run pipeline
         return f"error, status: {r.status_code}, msg: {r.json}"
